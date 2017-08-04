@@ -1,2 +1,4 @@
 liquid:
   error_mode: lax
+exclude:
+  - /*.md
