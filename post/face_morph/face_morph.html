@@ -9680,6 +9680,19 @@
             
         </li>
     
+        <li class="chapter " data-level="1.13.1.1.13.7" data-path="../../summary/coremail/shell_xt3_replacement/shell_xt3_replacement.html">
+            
+                <a href="../../summary/coremail/shell_xt3_replacement/shell_xt3_replacement.html">
+            
+                    
+                    Shell for replacing files of XT3
+            
+                </a>
+            
+
+            
+        </li>
+    
 
             </ul>
             
@@ -9773,18 +9786,18 @@
 <p>In my previous posts I have covered <a href="http://www.learnopencv.com/facial-landmark-detection/" target="_blank">Facial Landmark Detection</a> and <a href="http://www.learnopencv.com/delaunay-triangulation-and-voronoi-diagram-using-opencv-c-python/" target="_blank">Delaunay Triangulation</a>. It is a good idea to review those posts to better understand this one.</p>
 <h3 id="image-morphing">Image Morphing</h3>
 <p>Image morphing was first used extensively in the movie Willow using a technique developed at Industrial Light and Magic. A scene from the movie is shown below.</p>
-<p>The idea behind Image Morphing is rather simple. Given two images <script type="math/tex; ">I</script> and <script type="math/tex; ">J</script> we want to create an in-between image <script type="math/tex; ">M</script> by blending images <script type="math/tex; ">I</script> and <script type="math/tex; ">J</script>. The blending of images <script type="math/tex; ">I</script> and <script type="math/tex; ">J</script> is controlled by a parameter <script type="math/tex; ">\alpha</script> that is between 0 and 1 <script type="math/tex; ">( 0 \leq \alpha \leq 1 )</script>. When <script type="math/tex; ">\alpha</script> is 0, the morph <script type="math/tex; ">M</script> looks like <script type="math/tex; ">I</script>, and when <script type="math/tex; ">\alpha</script> is 1, <script type="math/tex; ">M</script> looks exactly like <script type="math/tex; ">J</script>. Naively, you can blend the images using the following equation at every pixel <script type="math/tex; ">(x, y)</script></p>
-<p><script type="math/tex; ">M (x, y) = ( 1 - \alpha ) I (x, y) + \alpha J (x , y)</script></p>
-<p>However, using the above equation to generate a blend between the image of Secretary Hillary Clinton and Senator Ted Cruz with <script type="math/tex; ">\alpha</script> set to 0.5, you will get the following terrible results.</p>
+<p>The idea behind Image Morphing is rather simple. Given two images $$I$$ and $$J$$ we want to create an in-between image $$M$$ by blending images $$I$$ and $$J$$. The blending of images $$I$$ and $$J$$ is controlled by a parameter $$\alpha$$ that is between 0 and 1 $$( 0 \leq \alpha \leq 1 )$$. When $$\alpha$$ is 0, the morph $$M$$ looks like $$I$$, and when $$\alpha$$ is 1, $$M$$ looks exactly like $$J$$. Naively, you can blend the images using the following equation at every pixel $$(x, y)$$</p>
+<p>$$M (x, y) = ( 1 - \alpha ) I (x, y) + \alpha J (x , y)$$</p>
+<p>However, using the above equation to generate a blend between the image of Secretary Hillary Clinton and Senator Ted Cruz with $$\alpha$$ set to 0.5, you will get the following terrible results.</p>
 <p align="center">
     <img src="https://raw.githubusercontent.com/aleen42/PersonalWiki/master/post/face_morph/1.jpg" width="614">
 </p>
 
 <p>The resulting image is disturbing, but it also screams a solution at you. It begs you to somehow align the eyes and the mouth before blending the images. You get similar disturbing results when you try to blend two different political ideologies without first aligning the minds, but I digress.</p>
-<p>So, to morph image <script type="math/tex; ">I</script> into image <script type="math/tex; ">J</script> we need to first establish pixel correspondence between the two images. In other words, for every pixel <script type="math/tex; ">(x_i, y_i)</script> in image <script type="math/tex; ">I</script>, we need to find it&apos;s corresponding pixel <script type="math/tex; ">(x_j, y_j)</script> in image <script type="math/tex; ">J</script>. Suppose we have magically found these correspondences, we can blend the images in two steps. First, we need to calculate the location <script type="math/tex; ">(x_m, y_m)</script> of the pixel in the morphed image. It is given by the following equation</p>
-<p><script type="math/tex; ">\begin{align*}  x_m &= (1 - \alpha) x_i + \alpha x_j \\ y_m &= (1 - \alpha) y_i + \alpha y_j \end{align*}</script></p>
+<p>So, to morph image $$I$$ into image $$J$$ we need to first establish pixel correspondence between the two images. In other words, for every pixel $$(x_i, y_i)$$ in image $$I$$, we need to find it&apos;s corresponding pixel $$(x_j, y_j)$$ in image $$J$$. Suppose we have magically found these correspondences, we can blend the images in two steps. First, we need to calculate the location $$(x_m, y_m)$$ of the pixel in the morphed image. It is given by the following equation</p>
+<p>$$\begin{align<em>}  x_m &amp;= (1 - \alpha) x_i + \alpha x_j \ y_m &amp;= (1 - \alpha) y_i + \alpha y_j \end{align</em>}$$</p>
 <p>Second, we need to find the intensity of the pixel at (x_m, y_m) using the following equation</p>
-<p><script type="math/tex; ">\begin{equation*} M(x_m,y_m) = (1 - \alpha) I(x_i, y_i) + \alpha J(x_j, y_j) \end{equation*}</script></p>
+<p>$$\begin{equation<em>} M(x_m,y_m) = (1 - \alpha) I(x_i, y_i) + \alpha J(x_j, y_j) \end{equation</em>}$$</p>
 <p>That&apos;s it. We are done. Now, Let&apos;s go and vote for Trump. Kidding! Just like Trump, I left out some important details. Finding a corresponding point in image J for every pixel in image I is about as difficult as building a 10 ft wall between the United States and Mexico. It can be done, but it is expensive and not really necessary.</p>
 <p>But it is very easy to find a few point correspondences. For morphing two dissimilar objects, like a cat&apos;s face and a human&apos;s face, we can click on a few points on the two images to establish correspondences and interpolate the results for the rest of the pixels. We will next see how Face Morphing is done in detail, but the same technique can be applied to any two objects.</p>
 <h3 id="face-morphing--step-by-step">Face Morphing : Step by Step</h3>
@@ -9816,9 +9829,9 @@
 <blockquote>
 <p>To understand the description below better, <a href="http://www.learnopencv.com/face-morph-using-opencv-cpp-python/#download" target="_blank">download</a> the code and images by subscribing to our newsletter <a href="http://www.learnopencv.com/face-morph-using-opencv-cpp-python/#download" target="_blank">here</a>.</p>
 </blockquote>
-<p>We are now in a position to intelligently blend the two images. As mentioned before, the amount of blending will be controlled by a parameter <script type="math/tex; ">\alpha</script>. Create a morph using the following steps.</p>
+<p>We are now in a position to intelligently blend the two images. As mentioned before, the amount of blending will be controlled by a parameter $$\alpha$$. Create a morph using the following steps.</p>
 <ol>
-<li><strong>Find location of feature points in morphed image</strong> : In the morphed image M, we can find the locations of all 80 points <script type="math/tex; ">(x_m, y_m)</script> using equation (1).</li>
+<li><strong>Find location of feature points in morphed image</strong> : In the morphed image M, we can find the locations of all 80 points $$(x_m, y_m)$$ using equation (1).</li>
 <li><strong>Calculate affine transforms</strong> : So we have a set of 80 points in image 1, another set of 80 points in image 2 and a third set of 80 points in the morphed image. We also know the triangulation defined over these points. Pick a triangle in image 1 and the corresponding triangle in the morphed image and calculate the affine transform that maps the three corners of the triangle in image 1 to the three corners of the corresponding triangle in the morphed image. In OpenCV, this can be done using <strong>getAffineTransform</strong> . Calculate an affine transform for every pair of 149 triangles. Finally, repeat the process of image 2 and the morphed image.</li>
 <li><strong>Warp triangles</strong> : For each triangle in image 1, use the affine transform calculated in the previous step to transform all pixels inside the triangle to the morphed image. Repeat this for all triangles in image 1 to obtain a warped version of image 1. Similarly, obtain a warped version for image 2. In OpenCV this is achieved by using the function <strong>warpAffine</strong>. However, warpAffine takes in an image and not a triangle. The trick is to calculate a bounding box for the triangle, warp all pixels inside the bounding box using warpAffine, and then mask the pixels outside the triangle. The triangular mask is created using <strong>fillConvexPoly</strong>. Be sure to use blendMode BORDER_REFLECT_101 while using warpAffine. It hides the seams better than Secretary Clinton hides her emails.</li>
 <li><strong>Alpha blend warped images</strong> : In the previous step we obtained warped version of image 1 and image 2. These two images can be alpha blended using equation (2), and this is your final morphed image. In the code I have provided warping triangles and alpha blending them is combined in a single step.</li>
@@ -9910,7 +9923,7 @@ https://aleen42.github.io/PersonalWiki/post/face_morph/face_morph.html
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"[轉載] Face Morph Using OpenCV — C++ / Python","level":"1.8.1.5.4","depth":4,"next":{"title":"[轉載] Face Swap using OpenCV ( C++ / Python )","level":"1.8.1.5.5","depth":4,"path":"post/face_swap/face_swap.md","ref":"./post/face_swap/face_swap.md","articles":[]},"previous":{"title":"[轉載] Facial Landmark Detection","level":"1.8.1.5.3","depth":4,"path":"post/facial_landmark/facial_landmark.md","ref":"./post/facial_landmark/facial_landmark.md","articles":[]},"dir":"ltr"},"config":{"plugins":["github","github-edit","sharing","ga","advanced-emoji","page-footer","page-treeview","mathjax","ace","resources"],"styles":{"website":"style/website.css","ebook":"style/ebook.css","pdf":"style/pdf.css","mobi":"style/mobi.css","epub":"style/epub.css"},"pluginsConfig":{"page-treeview":{"copyright":"Copyright © aleen42","minHeaderCount":"2","minHeaderDeep":"2","style":"markdown"},"disqus":{"shortName":"personal"},"ace":{},"github":{"url":"https://github.com/aleen42/personalwiki"},"resources":{"branch":"master","repo":"aleen42/PersonalWiki","type":"github"},"search":{},"lunr":{"ignoreSpecialCharacters":false,"maxIndexSize":1000000},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"github-edit":{"repo":"aleen42/personalwiki"},"injection":{"js":["src/index.js"]},"mathjax":{"forceSVG":false,"version":"2.6-latest"},"page-footer":{"isShowIssues":true,"wisdom":"More than a coder, more than a designer","copyright":"Copyright © aleen42","styles (normal, symmetrical)":"normal","issueNum":"20","style":"symmetrical","repo":"aleen42/PersonalWiki","isShowQRCode":true,"timeColor":"#a10000","utcOffset":"8","format":"yyyy-MM-dd hh:mm:ss","signature":"Aleen","token":"","baseUri":"https://aleen42.github.io/PersonalWiki/","copyrightColor":"#666","description":"update time:"},"ga":{"configuration":"auto","token":"UA-75457732-1"},"advanced-emoji":{"embedEmojis":true},"sharing":{"all":["facebook","google","twitter","weibo","instapaper","vk"],"facebook":true,"google":false,"instapaper":false,"twitter":false,"vk":false,"weibo":true},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"links":{"sidebar":{"GitHub Project":"https://github.com/aleen42/PersonalWiki"}},"gitbook":"*"},"file":{"path":"post/face_morph/face_morph.md","mtime":"2017-04-01T13:59:47.339Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-08-04T07:03:34.594Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"[轉載] Face Morph Using OpenCV — C++ / Python","level":"1.8.1.5.4","depth":4,"next":{"title":"[轉載] Face Swap using OpenCV ( C++ / Python )","level":"1.8.1.5.5","depth":4,"path":"post/face_swap/face_swap.md","ref":"./post/face_swap/face_swap.md","articles":[]},"previous":{"title":"[轉載] Facial Landmark Detection","level":"1.8.1.5.3","depth":4,"path":"post/facial_landmark/facial_landmark.md","ref":"./post/facial_landmark/facial_landmark.md","articles":[]},"dir":"ltr"},"config":{"plugins":["github","github-edit","sharing","ga","advanced-emoji","page-footer","page-treeview","ace","resources"],"styles":{"website":"style/website.css","ebook":"style/ebook.css","pdf":"style/pdf.css","mobi":"style/mobi.css","epub":"style/epub.css"},"pluginsConfig":{"page-treeview":{"copyright":"Copyright © aleen42","minHeaderCount":"2","minHeaderDeep":"2","style":"markdown"},"disqus":{"shortName":"personal"},"ace":{},"github":{"url":"https://github.com/aleen42/personalwiki"},"resources":{"branch":"master","repo":"aleen42/PersonalWiki","type":"github"},"search":{},"lunr":{"ignoreSpecialCharacters":false,"maxIndexSize":1000000},"fontsettings":{"family":"sans","size":2,"theme":"white"},"highlight":{},"github-edit":{"repo":"aleen42/personalwiki"},"injection":{"js":["src/index.js"]},"page-footer":{"isShowIssues":true,"wisdom":"More than a coder, more than a designer","copyright":"Copyright © aleen42","styles (normal, symmetrical)":"normal","issueNum":"20","style":"symmetrical","repo":"aleen42/PersonalWiki","isShowQRCode":true,"timeColor":"#a10000","utcOffset":"8","format":"yyyy-MM-dd hh:mm:ss","signature":"Aleen","token":"","baseUri":"https://aleen42.github.io/PersonalWiki/","copyrightColor":"#666","description":"update time:"},"ga":{"configuration":"auto","token":"UA-75457732-1"},"advanced-emoji":{"embedEmojis":true},"sharing":{"all":["facebook","google","twitter","weibo","instapaper","vk"],"facebook":true,"google":false,"instapaper":false,"twitter":false,"vk":false,"weibo":true},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"links":{"sidebar":{"GitHub Project":"https://github.com/aleen42/PersonalWiki"}},"gitbook":"*"},"file":{"path":"post/face_morph/face_morph.md","mtime":"2017-04-01T13:59:47.339Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-08-07T15:10:07.386Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
@@ -9933,14 +9946,6 @@ https://aleen42.github.io/PersonalWiki/post/face_morph/face_morph.html
     
         
         <script src="../../gitbook/gitbook-plugin-ga/plugin.js"></script>
-        
-    
-        
-        <script src="https://cdn.mathjax.org/mathjax/2.6-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        
-    
-        
-        <script src="../../gitbook/gitbook-plugin-mathjax/plugin.js"></script>
         
     
         

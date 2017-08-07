@@ -1,2 +1,2 @@
-# folder which we do need to build in GitBook
+# folders which should be ignored to build
 gh-pages
